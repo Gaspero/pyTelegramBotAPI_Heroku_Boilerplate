@@ -18,5 +18,10 @@
   },
   "scripts": {
     "postdeploy": "heroku config:set HEROKU_URL=$(heroku info -s | grep web_url | cut -d= -f2)"
-  }
+  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-cli"
+    }
+  ]
 }

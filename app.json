@@ -20,7 +20,7 @@
     }
   },
   "scripts": {
-    "postdeploy": "heroku config:set HEROKU_URL=$(heroku info -s | grep web_url | cut -d= -f2) --app ${HEROKU_APP_NAME}"
+    "postdeploy": "heroku run \"HEROKU_API_KEY=`heroku authorizations:create --expires-in 600 --short` heroku pgbackups:capture SILVER -a ${HEROKU_APP_NAME}\" -a ${HEROKU_APP_NAME}\n && heroku config:set HEROKU_URL=$(heroku info -s | grep web_url | cut -d= -f2) --app ${HEROKU_APP_NAME}"
   },
   "buildpacks": [
     {

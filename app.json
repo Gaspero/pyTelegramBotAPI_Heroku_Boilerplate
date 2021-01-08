@@ -1,0 +1,22 @@
+{
+  "name": "Heroku PyTelegramBotAPI Webhook",
+  "description": "Run PyTelegramBotAPI with Webhook on Heroku with ease.",
+  "keywords": [
+    "PyTelegramBotAPI",
+    "telebot",
+    "webhook",
+    "telegram"
+  ],
+  "addons": [
+    "heroku-postgresql:hobby-dev"
+  ],
+  "env": {
+    "TELEGRAM_TOKEN": {
+       "description": "Copy Telegram bot gathered from BotFather.",
+       "value": "<Enter Value>"
+    }
+  },
+  "scripts": {
+    "postdeploy": "heroku config:set HEROKU_URL=$(heroku info -s | grep web_url | cut -d= -f2)"
+  }
+}

@@ -20,7 +20,7 @@
     }
   },
   "scripts": {
-    "postdeploy": "heroku labs:enable runtime-dyno-metadata --app ${HEROKU_APP_NAME}"
+    "postdeploy": "heroku config:set HEROKU_URL=$(heroku info -s | grep web-url | cut -d= -f2) --app ${HEROKU_APP_NAME}"
   },
   "buildpacks": [
     {

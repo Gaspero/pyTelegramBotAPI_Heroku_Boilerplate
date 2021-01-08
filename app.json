@@ -14,10 +14,13 @@
     "TELEGRAM_TOKEN": {
        "description": "Copy Telegram bot gathered from BotFather.",
        "value": "<Enter Value>"
+    },
+    "HEROKU_APP_NAME": {
+        "required": true
     }
   },
   "scripts": {
-    "postdeploy": "heroku config:set HEROKU_URL=$(heroku info -s | grep web_url | cut -d= -f2)"
+    "postdeploy": "heroku config:set HEROKU_URL=$(heroku info -s | grep web_url | cut -d= -f2) --app ${HEROKU_APP_NAME}"
   },
   "buildpacks": [
     {

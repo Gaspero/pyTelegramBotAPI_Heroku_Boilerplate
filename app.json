@@ -15,16 +15,12 @@
        "description": "Copy Telegram bot gathered from BotFather.",
        "value": "<Enter Value>"
     },
+    "ENVIRONMENT": {
+       "description": "ENV: for either using ngrok locally (DEVELOPMENT) or build heroku URL (PRODUCTION)",
+       "value": "PRODUCTION"
+    },
     "HEROKU_APP_NAME": {
         "required": true
     }
-  },
-  "scripts": {
-    "postdeploy": "heroku config:set HEROKU_URL=$(heroku info -s | grep web-url | cut -d= -f2) --app ${HEROKU_APP_NAME}"
-  },
-  "buildpacks": [
-    {
-      "url": "https://github.com/heroku/heroku-buildpack-cli"
-    }
-  ]
+  }
 }

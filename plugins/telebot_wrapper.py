@@ -1,6 +1,7 @@
-from telebot import TeleBot
-from flask import Flask
+from telebot import TeleBot, types
+from flask import Flask, request, abort
 import inspect
+from app import config
 
 
 class TelebotWrapper(TeleBot):
@@ -23,7 +24,20 @@ class TelebotWrapper(TeleBot):
                 f'{k} is not a supported argument for __init__ method in TeleBot class'
             setattr(self, k, v)
 
+        self.setup_webhook()
+
+    def telegram_webhook_route(self):
+        if request.headers.get('content-type') == 'application/json':
+            json_string = request.get_data().decode('utf-8')
+            update = types.Update.de_json(json_string)
+            self.bot.process_new_updates([update])
+            return '!'
+        else:
+            abort(403)
+
     def setup_webhook(self):
+        self.app.add_url_rule(f'/{config.get("TELEGRAM_TOKEN")}', view_func=self.telegram_webhook_route, methods=['POST'])
+
         wh = self.get_webhook_info()
         tg_webhook_url = config.get('HOST_URL') + '/' + config.get('TELEGRAM_TOKEN')
         if not wh.url == tg_webhook_url:

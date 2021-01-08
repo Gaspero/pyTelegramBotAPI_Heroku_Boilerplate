@@ -20,3 +20,7 @@ class NgrokListener(object):
             http_tunnel = ngrok.connect(bind_tls=True, addr=config.get('HOST') + ':' + config.get('PORT'))
             config.update({'HOST_URL': http_tunnel.public_url})
             app.logger.debug(http_tunnel)
+        elif config.get('ENVIRONMENT') == 'PRODUCTION':
+            self.app.logger.debug(f'setting up HOST_URL to heroku')
+            heroku_app_name = config.get('HEROKU_APP_NAME')
+            config.update({'HOST_URL': f'https://{heroku_app_name}.herokuapp.com'})

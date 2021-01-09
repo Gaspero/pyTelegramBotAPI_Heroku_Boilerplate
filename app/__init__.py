@@ -28,7 +28,7 @@ def create_app():
 
     ngrok_listener.init_app(app)
 
-    bot.init_app(app=app, token=app.config.get('TELEGRAM_TOKEN'), parse_mode='HTML', threaded=True)
+    bot.init_app(app=app, token=app.config.get('TELEGRAM_TOKEN'), parse_mode='HTML', threaded=False)
 
     return app
 

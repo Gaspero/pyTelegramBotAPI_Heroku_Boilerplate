@@ -1,7 +1,6 @@
 from telebot import TeleBot, types
 from flask import Flask, request, abort
 import inspect
-from app import config
 
 
 class TelebotWrapper(TeleBot):
@@ -30,16 +29,16 @@ class TelebotWrapper(TeleBot):
         if request.headers.get('content-type') == 'application/json':
             json_string = request.get_data().decode('utf-8')
             update = types.Update.de_json(json_string)
-            self.bot.process_new_updates([update])
+            self.process_new_updates([update])
             return '!'
         else:
             abort(403)
 
     def setup_webhook(self):
-        self.app.add_url_rule(f'/{config.get("TELEGRAM_TOKEN")}', view_func=self.telegram_webhook_route, methods=['POST'])
+        self.app.add_url_rule(f'/{self.app.config.get("TELEGRAM_TOKEN")}', view_func=self.telegram_webhook_route, methods=['POST'])
 
         wh = self.get_webhook_info()
-        tg_webhook_url = config.get('HOST_URL') + '/' + config.get('TELEGRAM_TOKEN')
+        tg_webhook_url = self.app.config.get('HOST_URL') + '/' + self.app.config.get('TELEGRAM_TOKEN')
         if not wh.url == tg_webhook_url:
             self.remove_webhook()
             self.set_webhook(url=tg_webhook_url)

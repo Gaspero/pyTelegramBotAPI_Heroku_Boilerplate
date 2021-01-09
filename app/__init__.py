@@ -5,10 +5,6 @@ from flask import Flask
 from plugins.ngrok_listener import NgrokListener
 from plugins.telebot_wrapper import TelebotWrapper
 
-config = {
-    **dotenv_values(".env"),
-    **os.environ
-}
 
 bot = TelebotWrapper()
 ngrok_listener = NgrokListener()
@@ -16,7 +12,12 @@ ngrok_listener = NgrokListener()
 
 def create_app():
     app = Flask(__name__)
-    # app.config["SQLALCHEMY_DATABASE_URI"] = config.get('DATABASE_URL')
+    config = {
+        **dotenv_values(".env"),
+        **os.environ
+    }
+    app.config.from_mapping(config)
+    # app.config["SQLALCHEMY_DATABASE_URI"] = app.config.get('DATABASE_URL')
     gunicorn_error_logger = logging.getLogger('gunicorn.error')
     telebot_logger = logging.getLogger('TeleBot')
     telebot_logger.setLevel('DEBUG')
@@ -27,7 +28,8 @@ def create_app():
 
     ngrok_listener.init_app(app)
 
-    bot.init_app(token=config.get('TELEGRAM_TOKEN'), parse_mode='HTML', threaded=False)
-
+    bot.init_app(app=app, token=app.config.get('TELEGRAM_TOKEN'), parse_mode='HTML', threaded=False)
 
     return app
+
+from app import bot_handlers

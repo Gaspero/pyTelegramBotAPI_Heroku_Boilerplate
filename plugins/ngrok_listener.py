@@ -29,7 +29,8 @@ class NgrokListener(object):
             atexit.register(self.teardown)
 
     def teardown(self):
-        tunnels = ngrok.get_tunnels()
-        for tunnel in tunnels:
-            ngrok.disconnect(tunnel.public_url)
-        ngrok.kill()
+        if self.app.config.get('ENVIRONMENT') == 'DEVELOPMENT':
+            tunnels = ngrok.get_tunnels()
+            for tunnel in tunnels:
+                ngrok.disconnect(tunnel.public_url)
+            ngrok.kill()

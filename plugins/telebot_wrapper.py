@@ -42,11 +42,14 @@ class TelebotWrapper(TeleBot):
 
         wh = self.get_webhook_info()
         tg_webhook_url = self.app.config.get('HOST_URL') + '/' + self.app.config.get('TELEGRAM_TOKEN')
-        if not wh.url == tg_webhook_url:
-            self.app.logger.debug(f'{wh.url} is not equal {tg_webhook_url}')
-            time.sleep(1)
-            self.remove_webhook()
-            time.sleep(1)
+        if wh.url:
+            if not wh.url == tg_webhook_url:
+                self.app.logger.debug(f'{wh.url} is not equal {tg_webhook_url}')
+                time.sleep(1)
+                self.remove_webhook()
+                time.sleep(1)
+                self.set_webhook(url=tg_webhook_url)
+        else:
             self.set_webhook(url=tg_webhook_url)
     #         telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 429. Description: Too Many Requests: retry after 1
 

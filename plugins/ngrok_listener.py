@@ -25,7 +25,6 @@ class NgrokListener(object):
             heroku_app_name = self.app.config.get('HEROKU_APP_NAME')
             app.config.update({'HOST_URL': f'https://{heroku_app_name}.herokuapp.com'})
 
-    #     self.app.teardown_appcontext(self.teardown)
             atexit.register(self.teardown)
 
     def teardown(self):

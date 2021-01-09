@@ -2,7 +2,6 @@ from telebot import TeleBot, types
 from flask import Flask, request, abort
 import inspect
 import atexit
-import time
 
 
 class TelebotWrapper(TeleBot):
@@ -48,7 +47,6 @@ class TelebotWrapper(TeleBot):
                 self.set_webhook(url=tg_webhook_url)
         else:
             self.set_webhook(url=tg_webhook_url)
-    #         telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 429. Description: Too Many Requests: retry after 1
 
     def teardown(self):
         self.remove_webhook()

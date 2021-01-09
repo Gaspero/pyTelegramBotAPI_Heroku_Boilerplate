@@ -1,6 +1,7 @@
 from telebot import TeleBot, types
 from flask import Flask, request, abort
 import inspect
+import atexit
 
 
 class TelebotWrapper(TeleBot):
@@ -24,6 +25,8 @@ class TelebotWrapper(TeleBot):
             setattr(self, k, v)
 
         self.setup_webhook()
+        # self.app.teardown_appcontext(self.teardown)
+        atexit.register(self.teardown)
 
     def telegram_webhook_route(self):
         if request.headers.get('content-type') == 'application/json':
@@ -43,3 +46,6 @@ class TelebotWrapper(TeleBot):
             self.app.logger.debug(f'{wh.url} is not equal {tg_webhook_url}')
             self.remove_webhook()
             self.set_webhook(url=tg_webhook_url)
+
+    def teardown(self):
+        self.remove_webhook()

@@ -1,1 +1,1 @@
-bot: gunicorn run:app --log-file -
+bot: gunicorn run:app

@@ -40,5 +40,6 @@ class TelebotWrapper(TeleBot):
         wh = self.get_webhook_info()
         tg_webhook_url = self.app.config.get('HOST_URL') + '/' + self.app.config.get('TELEGRAM_TOKEN')
         if not wh.url == tg_webhook_url:
+            self.app.logger.debug(f'{wh.url} is not equal {tg_webhook_url}')
             self.remove_webhook()
             self.set_webhook(url=tg_webhook_url)

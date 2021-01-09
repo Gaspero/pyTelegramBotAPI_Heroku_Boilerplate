@@ -45,9 +45,6 @@ class TelebotWrapper(TeleBot):
         if wh.url:
             if not wh.url == tg_webhook_url:
                 self.app.logger.debug(f'{wh.url} is not equal {tg_webhook_url}')
-                time.sleep(1)
-                self.remove_webhook()
-                time.sleep(1)
                 self.set_webhook(url=tg_webhook_url)
         else:
             self.set_webhook(url=tg_webhook_url)

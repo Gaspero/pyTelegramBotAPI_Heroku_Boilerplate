@@ -1,7 +1,6 @@
 from telebot import TeleBot, types
 from flask import Flask, request, abort
 import inspect
-import atexit
 
 
 class TelebotWrapper(TeleBot):

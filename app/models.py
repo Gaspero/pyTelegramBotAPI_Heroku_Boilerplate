@@ -13,6 +13,8 @@ class BaseModel(Model):
 
 
 class User(BaseModel):
+    class Meta:
+        table_name = 'bot_users'
 
     chat_id = TextField(primary_key=True)
     id = TextField()

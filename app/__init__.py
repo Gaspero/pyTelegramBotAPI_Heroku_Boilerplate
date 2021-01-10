@@ -1,5 +1,7 @@
 import os
 import logging
+from playhouse.db_url import connect
+from peewee import DatabaseProxy
 from dotenv import dotenv_values
 from flask import Flask
 from plugins.ngrok_listener import NgrokListener
@@ -8,6 +10,7 @@ from plugins.telebot_wrapper import TelebotWrapper
 
 bot = TelebotWrapper()
 ngrok_listener = NgrokListener()
+db = DatabaseProxy()
 
 
 def create_app():
@@ -17,7 +20,6 @@ def create_app():
         **os.environ
     }
     app.config.from_mapping(config)
-    # app.config["SQLALCHEMY_DATABASE_URI"] = app.config.get('DATABASE_URL')
     gunicorn_error_logger = logging.getLogger('gunicorn.error')
     telebot_logger = logging.getLogger('TeleBot')
     telebot_logger.setLevel('DEBUG')
@@ -28,8 +30,13 @@ def create_app():
 
     ngrok_listener.init_app(app)
 
+    db_object = connect(app.config.get('DATABASE_URL'))
+    db.initialize(db_object)
+
     bot.init_app(app=app, token=app.config.get('TELEGRAM_TOKEN'), parse_mode='HTML', threaded=False)
 
     return app
 
+
+from app import models
 from app import bot_handlers

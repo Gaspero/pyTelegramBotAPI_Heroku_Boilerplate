@@ -22,5 +22,8 @@
     "HEROKU_APP_NAME": {
         "required": true
     }
+  },
+  "scripts": {
+    "postdeploy": "flask database init"
   }
 }

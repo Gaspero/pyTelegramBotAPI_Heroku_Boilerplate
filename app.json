@@ -19,8 +19,12 @@
        "description": "ENV: for either using ngrok locally (DEVELOPMENT) or build heroku URL (PRODUCTION)",
        "value": "PRODUCTION"
     },
-    "HEROKU_APP_NAME": {
-        "required": true
+    "ENVIRONMENT": {
+       "description": "ENV: for either using ngrok locally (DEVELOPMENT) or build heroku URL (PRODUCTION)",
+       "value": "PRODUCTION"
+    },
+    "FLASK_APP": {
+        "value": "run:app"
     }
   },
   "scripts": {

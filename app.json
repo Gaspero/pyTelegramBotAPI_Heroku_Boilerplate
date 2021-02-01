@@ -19,9 +19,13 @@
        "description": "ENV: for either using ngrok locally (DEVELOPMENT) or build heroku URL (PRODUCTION)",
        "value": "PRODUCTION"
     },
-    "ENVIRONMENT": {
-       "description": "ENV: for either using ngrok locally (DEVELOPMENT) or build heroku URL (PRODUCTION)",
-       "value": "PRODUCTION"
+    "HEROKU_APP_NAME": {
+       "description": "Enter app name that you have entered above",
+       "value": ""
+    },
+    "HOST_URL": {
+       "description": "Enter full heroku url like https://yourappname.herokuapp.com without slash on the end",
+       "value": ""
     },
     "FLASK_APP": {
         "value": "run:app"
